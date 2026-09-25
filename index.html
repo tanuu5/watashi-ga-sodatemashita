@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>私が育てました — I Grew These</title>
+  <meta name="description" content="たぬの短編小説「私が育てました」を、紙を切り抜いて一コマずつ動かすストップモーションにしました。すべてのコマはブラウザの中で描かれます。">
+  <meta property="og:title" content="私が育てました — I Grew These">
+  <meta property="og:description" content="A paper cut-out stop-motion, after a short story by Tanu. Every frame is cut and lit in your browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/poster.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#14120f">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -1 11 11' shape-rendering='crispEdges'%3E%3Crect y='-1' width='11' height='11' fill='%23f3eee2'/%3E%3Cpath d='M7 0h1v1H7zM9 0h1v1H9zM8 1h1v1H8z' fill='%236aa55a'/%3E%3Cpath d='M1 2h9v5H1zM1 7h1v2H1zM3 7h1v1H3zM6 7h1v2H6zM9 7h1v2H9z' fill='%23e0703f'/%3E%3Cpath d='M2 4h1v1H2zM8 4h1v1H8z' fill='%231d1a18'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link data-fonts rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=BIZ+UDGothic:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Klee+One:wght@400;600&family=Yomogi&family=Zen+Old+Mincho:wght@400;500;700;900&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main>
+    <section id="stage" aria-label="ストップモーション作品「私が育てました」">
+      <canvas id="film" role="img" aria-label="紙を切り抜いて作ったストップモーション。破産した農業法人の管財人が、誰もいないのに動き続ける農園と、山道の無人直売所を訪ねる。"></canvas>
+
+      <div id="loading" class="veil">
+        <p class="load-text">種をまいています…<span>sowing seeds</span></p>
+        <div class="bar"><i id="loadbar"></i></div>
+      </div>
+
+      <div id="start" class="veil" hidden>
+        <div class="card">
+          <h1>私が育てました</h1>
+          <p class="sub">I Grew These</p>
+          <p class="tag">原作　たぬ　／　紙を切って一コマずつ動かすストップモーション</p>
+          <button id="play" type="button"><span aria-hidden="true">▶</span> はじめる <small>play</small></button>
+          <p class="hint">約8分・音が出ます　<kbd>Space</kbd> 再生／停止　<kbd>←</kbd><kbd>→</kbd> コマ送り</p>
+        </div>
+      </div>
+
+      <div id="end" class="veil soft" hidden>
+        <div class="card">
+          <p class="fin">おしまい <small>fin</small></p>
+          <button id="replay" type="button">もう一度みる <small>watch again</small></button>
+          <p class="hint"><kbd>←</kbd><kbd>→</kbd> で一コマずつ戻って見ることもできます</p>
+        </div>
+      </div>
+
+      <div id="controls">
+        <button id="pp" type="button" aria-label="再生">▶</button>
+        <input id="scrub" type="range" min="0" max="100" value="0" step="1" aria-label="コマ位置">
+        <span id="counter" aria-live="off">コマ 0001</span>
+        <button id="lang" type="button">字幕 日本語</button>
+        <button id="snd" type="button" aria-pressed="true">音 ON</button>
+        <button id="fs" type="button" aria-label="全画面">⛶</button>
+      </div>
+      <p id="live" class="sr-only" aria-live="polite"></p>
+    </section>
+
+    <article id="about">
+      <div class="col">
+        <h2>この作品について</h2>
+        <p>たぬの短編小説「<a href="https://note.com/tank_ai/n/n70001018dbf5">私が育てました</a>」（2026年）を原作に、Claude（Anthropic の AI）が構成・絵・音・プログラムを作ったストップモーションです。破産した農業法人の管財人・城戸は、代表者が亡くなったあとも、誰もいない農園が野菜を育てて売り続けていることに気づきます。</p>
+        <p>人の暮らす場所（事務所や縁側）は、原作の文章を刷った紙で切りました。農園とハウスと直売所は、農園のシステムが残した操作ログを刷った紙で切っています。</p>
+        <p>ストップモーションでは、コマとコマのあいだで物を動かす手は、画面に映りません。この映画の農園も、誰の手も見えないまま動いています。ただ、コマは止めて一枚ずつ見ることができます。<kbd>←</kbd><kbd>→</kbd> でコマ送りしたときにだけ見える一枚を、原作にはない付け足しとして入れました。</p>
+        <p>直売所の看板のオレンジの生き物は、原作の投稿に添えられた画像とは姿を変えて描いています。四角い胴、四角い目が二つ、脚が四本あるように見える、という原作の描写はそのままです。</p>
+        <p class="tech">作品の中で画像・動画・音声のファイルは使っていません。紙の繊維、刷られた文字、ビニールのしわ、ハウスを透ける光、影、蝉の声まで、ブラウザの中でその場で作っています（12fps）。同じコマは毎回同じ姿で描かれます。</p>
+        <p class="credit">原作：たぬ「<a href="https://note.com/tank_ai/n/n70001018dbf5">私が育てました</a>」　／　制作：Claude Opus 5.5（MAX）<br>コード：MIT License　／　原作の文章とその翻訳は MIT の対象外です（© たぬ）</p>
+      </div>
+      <div class="col en" lang="en">
+        <h2>About</h2>
+        <p>A stop-motion film after Tanu’s short story <a href="https://note.com/tank_ai/n/n70001018dbf5"><i>I Grew These</i></a> (2026). Claude — an AI made by Anthropic — adapted, drew, scored and programmed it. Kido, the trustee of a bankrupt farming company, finds that months after its owner died, the empty farm is still growing vegetables, and selling them at an unmanned stand on the mountain road.</p>
+        <p>The places where people live are cut from paper printed with the original story. The farm, its greenhouses and the stand are cut from paper printed with the farm system’s own operation log.</p>
+        <p>In stop-motion, the hands that move things between frames are never on screen. The farm in this film runs the same way. But every frame here can be paused and looked at on its own, and one frame, added by the adaptation, can only be seen if you step through with <kbd>←</kbd> <kbd>→</kbd>.</p>
+        <p>The orange creature on the stand’s sign is drawn differently from the picture in the original post; what the story says of it — a square body, two square eyes, what might be four legs — is kept.</p>
+        <p class="tech">No image, video or audio files are used. Paper fibres, printed text, crinkled plastic, light through greenhouse film, shadows and cicadas are all made live in your browser, at 12 fps. Every frame renders the same way every time.</p>
+        <p class="credit">Original story: Tanu · Made with Claude Opus 5.5 (MAX)<br>Code: MIT License · The story’s text and its translations are © Tanu, not covered by the MIT License</p>
+      </div>
+    </article>
+    <footer>私が育てました — made one frame at a time by Claude Opus 5.5 (MAX)</footer>
+  </main>
+  <noscript><p class="noscript">この作品の再生には JavaScript が必要です。/ This film needs JavaScript to play.</p></noscript>
+  <script>
+    // If the film's scripts never start (a dropped connection, a very slow network), say so instead of waiting forever.
+    setTimeout(function () {
+      if (window.__filmStarted) return;
+      var t = document.querySelector('.load-text');
+      if (t) t.innerHTML = '読み込みに時間がかかっています。ページを再読み込みしてください。<span>Still loading — please reload the page.</span>';
+    }, 15000);
+  </script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
