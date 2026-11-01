@@ -203,13 +203,14 @@ export function stand(o) {
   const f = R.frame;
   R.anchor = { x: 800, y: 470 };
   R.light = T.sun ? { x: -T.sun.from[0] * 0.9, y: -T.sun.from[1] * 0.9 } : { x: 0.2, y: 0.6 };
+  // The light (and so each piece's shadow and kept bounds) follows the time, so every kept piece is named per time.
   withCam(cam.x, cam.y, cam.z, () => {
     const ctx = R.ctx;
     // 1. the far planes
     withPlane(0.08, () => {
       sky(T, f);
       if (!o.time || o.time === 'july' || o.time === 'august') {
-        S.clouds.forEach((c, i) => stillPiece('st-cloud' + i, c, { x: -300 + i * 620, y: -40 - (i % 2) * 90, color: '#f6f7f4', tex: 'washi', lift: 4, edge: 0.2, alpha: 0.95, maxQ: 0.9 }));
+        S.clouds.forEach((c, i) => stillPiece('st-cloud' + i + '|' + o.time, c, { x: -300 + i * 620, y: -40 - (i % 2) * 90, color: '#f6f7f4', tex: 'washi', lift: 4, edge: 0.2, alpha: 0.95, maxQ: 0.9 }));
       }
     });
     withPlane(0.22, () => stillPiece('st-far0|' + o.time, S.far[0], { color: T.far, tex: 'washi', ts: 1.2, lift: 3, edge: 0.15, maxQ: 0.6 }));
@@ -226,28 +227,28 @@ export function stand(o) {
 
     // 2. the stand, its things, and whatever stands around it
     withPlane(0.94, () => {
-      stillPiece('st-mirror-pole', S.mirrorPole, { color: '#d9722f', tex: 'plain', lift: 10, edge: 0.4 });
-      stillPiece('st-mirror-rim', S.mirrorRim, { x: -150, y: GROUND - 560, color: '#e07a34', tex: 'plain', lift: 12, edge: 0.4 });
+      stillPiece('st-mirror-pole|' + o.time, S.mirrorPole, { color: '#d9722f', tex: 'plain', lift: 10, edge: 0.4 });
+      stillPiece('st-mirror-rim|' + o.time, S.mirrorRim, { x: -150, y: GROUND - 560, color: '#e07a34', tex: 'plain', lift: 12, edge: 0.4 });
       stillPiece('st-mirror|' + o.time, S.mirror, { x: -150, y: GROUND - 560, color: mixHex(T.sky[1], '#9aa4a8', 0.4), tex: null, lift: 13, edge: 0.6 });
     });
-    stillPiece('st-shoulder', S.shoulder, { color: '#a49c8e', tex: 'gravel', ts: 0.5, lift: 1, edge: 0.1, maxQ: 1.2 });
+    stillPiece('st-shoulder|' + o.time, S.shoulder, { color: '#a49c8e', tex: 'gravel', ts: 0.5, lift: 1, edge: 0.1, maxQ: 1.2 });
     if (o.back) o.back();
-    for (const p of S.still) stillPiece(p.key, p.sh, p.o);
+    for (const p of S.still) stillPiece(p.key + '|' + o.time, p.sh, p.o);
     produce(o);
     cashBox(BOXPOS.x, BOXPOS.y, o.box || {});
     qrStand(QRPOS.x, QRPOS.y, 1);
     extras(o);
     sign(SIGNPOS.x, SIGNPOS.y, 1, { fade: o.sign?.fade || 0, lamCloud: o.sign?.lamCloud || 0, lift: 4, sway: o.sign?.sway || 0 });
-    stillPiece('st-rail', S.rail, { color: '#d7d9d6', tex: 'plain', lift: 6, edge: 0.5, maxQ: 1.2 });
-    S.railPosts.forEach((p, i) => stillPiece('st-rp' + i, p, { color: '#c9ccc8', tex: 'plain', lift: 5, edge: 0.4 }));
+    stillPiece('st-rail|' + o.time, S.rail, { color: '#d7d9d6', tex: 'plain', lift: 6, edge: 0.5, maxQ: 1.2 });
+    S.railPosts.forEach((p, i) => stillPiece('st-rp' + i + '|' + o.time, p, { color: '#c9ccc8', tex: 'plain', lift: 5, edge: 0.4 }));
     S.tufts.forEach((t, i) => stillPiece('st-tuft' + i + '|' + o.time, t, { color: T.autumn ? '#9a8a52' : '#6f9a48', tex: 'washi', lift: 3, edge: 0.2 }));
-    stillPiece('st-gutter', S.gutter, { color: '#8a8780', tex: 'block', ts: 0.4, lift: 2, edge: 0.3, maxQ: 0.8 });
-    stillPiece('st-road', S.road, { color: '#5d5d5f', tex: 'gravel', ts: 0.35, lift: 1, edge: 0.2, maxQ: 0.8 });
-    stillPiece('st-line', S.line, { color: '#e8e6dc', tex: 'plain', lift: 1.5, edge: 0.1, maxQ: 0.8 });
+    stillPiece('st-gutter|' + o.time, S.gutter, { color: '#8a8780', tex: 'block', ts: 0.4, lift: 2, edge: 0.3, maxQ: 0.8 });
+    stillPiece('st-road|' + o.time, S.road, { color: '#5d5d5f', tex: 'gravel', ts: 0.35, lift: 1, edge: 0.2, maxQ: 0.8 });
+    stillPiece('st-line|' + o.time, S.line, { color: '#e8e6dc', tex: 'plain', lift: 1.5, edge: 0.1, maxQ: 0.8 });
     if (o.fg) o.fg();
     withPlane(1.35, () => {
-      stillPiece('st-pole', S.pole, { color: '#6e6a62', tex: 'plain', lift: 20, edge: 0.3, maxQ: 1.2 });
-      stillPiece('st-arm', S.arm, { color: '#5e5a54', tex: 'plain', lift: 20, edge: 0.3 });
+      stillPiece('st-pole|' + o.time, S.pole, { color: '#6e6a62', tex: 'plain', lift: 20, edge: 0.3, maxQ: 1.2 });
+      stillPiece('st-arm|' + o.time, S.arm, { color: '#5e5a54', tex: 'plain', lift: 20, edge: 0.3 });
     });
     wires(T);
 
