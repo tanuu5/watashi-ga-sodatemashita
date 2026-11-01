@@ -65,6 +65,7 @@ export function road(o) {
   const cam = o.cam;
   R.anchor = { x: o.carX, y: 470 };
   R.light = nov ? { x: 0.2, y: 0.5 } : { x: 0.35, y: 0.8 };
+  // The light (and so each piece's shadow and kept bounds) follows the time, so every kept piece is named per time.
   let lamps = [];
   withCam(cam.x, cam.y, cam.z, () => {
     const ctx = R.ctx;
@@ -94,9 +95,9 @@ export function road(o) {
         },
       }));
     });
-    stillPiece('rd-rail', S.rail, { color: '#d7d9d6', tex: 'plain', lift: 5, edge: 0.4, maxQ: 0.45 });
-    stillPiece('rd-road', S.road, { color: '#6a6a6c', tex: 'gravel', ts: 0.4, lift: 2, edge: 0.2, maxQ: 0.45 });
-    stillPiece('rd-line', S.line, { color: '#e6e3d8', tex: 'plain', lift: 2, edge: 0, maxQ: 0.45 });
+    stillPiece('rd-rail|' + o.time, S.rail, { color: '#d7d9d6', tex: 'plain', lift: 5, edge: 0.4, maxQ: 0.45 });
+    stillPiece('rd-road|' + o.time, S.road, { color: '#6a6a6c', tex: 'gravel', ts: 0.4, lift: 2, edge: 0.2, maxQ: 0.45 });
+    stillPiece('rd-line|' + o.time, S.line, { color: '#e6e3d8', tex: 'plain', lift: 2, edge: 0, maxQ: 0.45 });
     // roadside tables with cucumbers, and a plastic case for the money
     for (const [i, x] of (o.stands || []).entries()) {
       piece(S.tableLeg, { x: x - 50, y: ROAD_Y + 20, color: '#6a5a48', tex: 'wood', lift: 5 });
